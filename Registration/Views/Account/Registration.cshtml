@@ -1,0 +1,78 @@
+﻿@model Registration.Models.RegisterViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <title>Registration</title>
+</head>
+<body style="background-color:lightgray">
+    <div id="regisBox" class="login-box">
+        @*<div class="login-logo">
+        </div>*@
+        <div class="login-box-body">
+            <h3 class="pull-left">Registration</h3>@Html.ValidationSummary("", new { @class = "text-danger" })
+            <form action="../../index2.html" id="theform" method="post">
+                <div class="form-group has-feedback">
+                    @*<input type="text" data-placement="top" class="form-control" pattern="^(^\+62\s?|^0|62\s?)(\d{3,4}-?){2}\d{3,4}$" placeholder="Mobile number">*@
+                    @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @placeholder = "Mobile number", @id = "MobileNumber" })
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name", @id = "FirstName" })
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name", @id = "LastName" })
+                </div>
+                <div class="form-group has-feedback">
+                    <label>Date of Birth</label>
+                    <div class="example">
+                        @*<input type="hidden" id="example1">*@
+                        @Html.DropDownList("day", Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "Day")
+                        @Html.DropDownList("month", Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i) }), "Month")
+                        @Html.DropDownList("year", Enumerable.Range(1900, DateTime.Now.Year - 1899).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "Year")
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.RadioButtonFor(m => m.Gender, "M")
+                    Male
+                    @Html.RadioButtonFor(m => m.Gender, "F")
+                    Female
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @id = "Email" })
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "Password" })
+                </div>
+                <div class="form-group has-feedback">
+                    @Html.PasswordFor(m => m.RePassword, new { @class = "form-control", @placeholder = "Confirm Password", @id = "RePassword" })
+                </div>
+                <button type="button" id="regisButton" class="btn btn-md btn-block" style="background-color:purple;color:white">Register</button>
+                <button type="button" id="loginButton" class="btn btn-md btn-block" style="background-color:purple;color:white">Login</button>
+            </form>
+
+        </div>
+        <div class="login-box">
+            
+        </div>
+        <!-- /.login-box-body -->
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(function () {
+            $("#example1").dateDropdowns();
+        });
+        $("#loginButton").hide();
+    </script>
+</body>
+</html>

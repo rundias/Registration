@@ -1,0 +1,6 @@
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Domain\bin\Debug\Registration.Domain.dll
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Domain\bin\Debug\Registration.Domain.pdb
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Domain\obj\Debug\Registration.Domain.csprojResolveAssemblyReference.cache
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Domain\obj\Debug\Registration.Domain.csproj.CoreCompileInputs.cache
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Domain\obj\Debug\Registration.Domain.dll
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Domain\obj\Debug\Registration.Domain.pdb
