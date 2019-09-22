@@ -10,24 +10,85 @@ namespace Registration.API.Controllers
 {
     public class UsersController : ApiController
     {
-        public IHttpActionResult RegForm(UserModel um)
+        public IHttpActionResult Register(Domain.UserModel um)
         {
-            AccountDBEntities adb = new AccountDBEntities();
-            adb.Users.Add(new User()
+            string message = "";
+            try
             {
-                Email= um.Email,
-                MobileNumber = um.MobileNumber,
-                FirstName = um.FirstName,
-                LastName = um.LastName,
-                DateOfBirth = um.DateOfBirth,
-                Gender = um.Gender,
-                Password = um.Password,
-            });
-            adb.SaveChanges();
-            return Ok();
+                using (AccountDBEntities adb = new AccountDBEntities())
+                {
+                    var isExistEmail = IsEmailExist(um.Email);
+                    if (isExistEmail)
+                    {
+                        message += "Email already exists|";
+                    }
+                    var isMobileNumber = IsMobileNumberExist(um.MobileNumber);
+                    if (isMobileNumber)
+                    {
+                        message += "Mobile number already exists|";
+                    }
+                    if (!isExistEmail && !isMobileNumber)
+                    {
+                        adb.Users.Add(new User()
+                        {
+                            Email = um.Email,
+                            MobileNumber = um.MobileNumber,
+                            FirstName = um.FirstName,
+                            LastName = um.LastName,
+                            DateOfBirth = um.DateOfBirth,
+                            Gender = um.Gender,
+                            Password = um.Password,
+                        });
+                        adb.SaveChanges();
+                        return Content(HttpStatusCode.Created, um);
+                    }
+                    else
+                    {
+                        return Content(HttpStatusCode.BadRequest, message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Content(HttpStatusCode.BadRequest, ex); ;
+            }
         }
 
-        public HttpResponseMessage Register (Domain.UserModel um)
+        public IHttpActionResult Login(Domain.UserLogin um)
+        {
+            //string message = "";
+            try
+            {
+                using (AccountDBEntities adb = new AccountDBEntities())
+                {
+                    var v = adb.Users.Where(a => a.Email == um.Email).FirstOrDefault();
+                    if (v != null)
+                    {
+                        if (string.Compare(um.Password, v.Password) == 0)
+                        {
+                            return Content(HttpStatusCode.Accepted, "Login Success");
+                        }
+                        else
+                        {
+                            return Content(HttpStatusCode.NotFound, "Wrong Password");
+                        }
+                    }
+                    else
+                    {
+                        return Content(HttpStatusCode.NotFound, "Wrong Email");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Content(HttpStatusCode.BadRequest, ex);
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage Register1 (Domain.UserModel um)
         {
             string message = "";
             try
@@ -70,11 +131,6 @@ namespace Registration.API.Controllers
 
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
             }
-        }
-
-        public HttpResponseMessage Login (Domain. um)
-        {
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex);
         }
 
         [NonAction]

@@ -17,29 +17,36 @@
 <body style="background-color:lightgray">
     <div id="regisBox" class="login-box">
         @*<div class="login-logo">
-        </div>*@
+            </div>*@
         <div class="login-box-body">
-            <h3 class="pull-left">Registration</h3>@Html.ValidationSummary("", new { @class = "text-danger" })
-            <form action="../../index2.html" id="theform" method="post">
+            <h3 class="pull-left">Registration</h3>
+            <br>
+            @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
+            <form action="/Account/Registration" id="theform" method="post">
                 <div class="form-group has-feedback">
                     @*<input type="text" data-placement="top" class="form-control" pattern="^(^\+62\s?|^0|62\s?)(\d{3,4}-?){2}\d{3,4}$" placeholder="Mobile number">*@
                     @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "text-danger" })
                     @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @placeholder = "Mobile number", @id = "MobileNumber" })
                 </div>
                 <div class="form-group has-feedback">
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
                     @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name", @id = "FirstName" })
                 </div>
                 <div class="form-group has-feedback">
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
                     @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name", @id = "LastName" })
                 </div>
                 <div class="form-group has-feedback">
                     <label>Date of Birth</label>
-                    <div class="example">
+                    <div class="date">
                         @*<input type="hidden" id="example1">*@
-                        @Html.DropDownList("day", Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "Day")
-                        @Html.DropDownList("month", Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i) }), "Month")
-                        @Html.DropDownList("year", Enumerable.Range(1900, DateTime.Now.Year - 1899).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "Year")
+                        @Html.DropDownList("day", Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "Day", new { @class = "date" })
+                        @Html.DropDownList("month", Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = System.Globalization.CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(i) }), "Month", new { @class = "date" })
+                        @Html.DropDownList("year", Enumerable.Range(1900, DateTime.Now.Year - 1899).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }), "Year", new { @class = "date" })
                     </div>
+                </div>
+                <div style="display:none" class="form-group has-feedback">
+                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", @placeholder = "Last Name", @id = "DateOfBirth" })
                 </div>
                 <div class="form-group has-feedback">
                     @Html.RadioButtonFor(m => m.Gender, "M")
@@ -48,31 +55,90 @@
                     Female
                 </div>
                 <div class="form-group has-feedback">
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Email", @id = "Email" })
                 </div>
                 <div class="form-group has-feedback">
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password", @id = "Password" })
                 </div>
                 <div class="form-group has-feedback">
+                    @Html.ValidationMessageFor(m => m.RePassword, "", new { @class = "text-danger" })
                     @Html.PasswordFor(m => m.RePassword, new { @class = "form-control", @placeholder = "Confirm Password", @id = "RePassword" })
                 </div>
-                <button type="button" id="regisButton" class="btn btn-md btn-block" style="background-color:purple;color:white">Register</button>
-                <button type="button" id="loginButton" class="btn btn-md btn-block" style="background-color:purple;color:white">Login</button>
+                <button type="submit" value="Register" class="btn btn-md btn-block" style="background-color:purple;color:white">Register</button>
+                <button type="button" value="Register" id="regisButton" class="btn btn-md btn-block" style="background-color:purple;color:white">Register</button>
+                <button type="button" id="loginButton" class="btn btn-md btn-block" style="background-color:purple;color:white" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");">Login</button>
             </form>
 
         </div>
         <div class="login-box">
-            
+
         </div>
         <!-- /.login-box-body -->
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
-        $(function () {
-            $("#example1").dateDropdowns();
+        $("#regisButton").click(function () {
+            var user = {};
+            user.MobileNumber = $("#MobileNumber").val();
+            user.FirstName = $("#FirstName").val();
+            user.LastName = $("#LastName").val();
+            user.DateOfBirth = $("#DateOfBirth").val();
+            user.Gender = $('input[name=Gender]:checked').val();
+            user.Email = $("#Email").val();
+            user.Password = $("#Password").val();
+            user.RePassword = $("#RePassword").val();
+            $.ajax({
+                type: "POST",
+                url: "/Account/Registration",
+                data: '{user: ' + JSON.stringify(user) + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert("success");
+                },
+                failure: function (response) {
+                    alert("failure");
+                },
+                error: function (response) {
+                    alert("error");
+                }
+            });
         });
-        $("#loginButton").hide();
+        //$(function () {
+        //    $("#regisButton").click(function () {
+        //        var person = {};
+        //        person.Name = $("#txtName").val();
+        //        $.ajax({
+        //            type: "POST",
+        //            url: "/Account/Registration",
+        //            data: '{person: ' + JSON.stringify(person) + '}',
+        //            contentType: "application/json; charset=utf-8",
+        //            dataType: "json",
+        //            success: function (response) {
+        //                alert("success");
+        //            },
+        //            failure: function (response) {
+        //                alert("failure");
+        //            },
+        //            error: function (response) {
+        //                alert("error");
+        //            }
+        //        });
+        //    });
+        //});
+    </script>
+    <script>
+        $(document).on("change", ".date", function () {
+            var day = ("0" + $("#day").val()).slice(-2);
+            var month = ("0" + $("#month").val()).slice(-2);
+            var year = $("#year").val();
+            if (day!="" && month!="" && year!="") {
+                $("#DateOfBirth").val(day + "-" + month + "-" + year);
+            }
+        });
     </script>
 </body>
 </html>

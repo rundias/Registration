@@ -14,7 +14,7 @@ namespace Registration.API.Models
 
         public string LastName { get; set; }
 
-        public System.DateTime DateOfBirth { get; set; }
+        public Nullable<System.DateTime> DateOfBirth { get; set; }
 
         public string Gender { get; set; }
 

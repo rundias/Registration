@@ -44,3 +44,5 @@ C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Tests\obj\Debug\Reg
 C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Tests\obj\Debug\Registration.Tests.csproj.CopyComplete
 C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Tests\obj\Debug\Registration.Tests.dll
 C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Tests\obj\Debug\Registration.Tests.pdb
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Tests\bin\Debug\Registration.Domain.dll
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.Tests\bin\Debug\Registration.Domain.pdb

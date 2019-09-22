@@ -77,3 +77,5 @@ C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.API\obj\Debug\Regis
 C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.API\obj\Debug\Registration.API.csproj.CopyComplete
 C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.API\obj\Debug\Registration.API.dll
 C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.API\obj\Debug\Registration.API.pdb
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.API\bin\Registration.Domain.dll
+C:\Users\NurSa.KAIROS\source\repos\Registration\Registration.API\bin\Registration.Domain.pdb
