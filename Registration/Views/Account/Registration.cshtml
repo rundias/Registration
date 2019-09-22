@@ -21,9 +21,15 @@
         <div class="login-box-body">
             <h3 class="pull-left">Registration</h3>
             <br>
+            <br>
+            <br>
             @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
             <form action="/Account/Registration" id="theform" method="post">
                 <div class="form-group has-feedback">
+                    @if (ViewBag.Status != "" && ViewBag.Status != "Created")
+                    {
+                        <div class="text-danger">@ViewBag.Status</div>
+                    }
                     @*<input type="text" data-placement="top" class="form-control" pattern="^(^\+62\s?|^0|62\s?)(\d{3,4}-?){2}\d{3,4}$" placeholder="Mobile number">*@
                     @Html.ValidationMessageFor(m => m.MobileNumber, "", new { @class = "text-danger" })
                     @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @placeholder = "Mobile number", @id = "MobileNumber" })
@@ -46,7 +52,7 @@
                     </div>
                 </div>
                 <div style="display:none" class="form-group has-feedback">
-                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", @placeholder = "Last Name", @id = "DateOfBirth" })
+                    @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", @placeholder = "DateOfBirth", @id = "DateOfBirth" })
                 </div>
                 <div class="form-group has-feedback">
                     @Html.RadioButtonFor(m => m.Gender, "M")
@@ -67,8 +73,8 @@
                     @Html.PasswordFor(m => m.RePassword, new { @class = "form-control", @placeholder = "Confirm Password", @id = "RePassword" })
                 </div>
                 <button type="submit" value="Register" class="btn btn-md btn-block" style="background-color:purple;color:white">Register</button>
-                <button type="button" value="Register" id="regisButton" class="btn btn-md btn-block" style="background-color:purple;color:white">Register</button>
-                <button type="button" id="loginButton" class="btn btn-md btn-block" style="background-color:purple;color:white" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");">Login</button>
+                @*<button type="button" onclick="submitRegis()" value="Register" id="regisButton" class="btn btn-md btn-block" style="background-color:purple;color:white">Register</button>*@
+                <button type="button" id="loginButton" class="btn btn-md btn-block" style="background-color:purple;color:white;display:none" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");">Login</button>
             </form>
 
         </div>
@@ -80,20 +86,38 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     <script>
-        $("#regisButton").click(function () {
-            var user = {};
-            user.MobileNumber = $("#MobileNumber").val();
-            user.FirstName = $("#FirstName").val();
-            user.LastName = $("#LastName").val();
-            user.DateOfBirth = $("#DateOfBirth").val();
-            user.Gender = $('input[name=Gender]:checked').val();
-            user.Email = $("#Email").val();
-            user.Password = $("#Password").val();
-            user.RePassword = $("#RePassword").val();
+        function submitRegis() {
+            //var user = {};
+            //user.MobileNumber = $("#MobileNumber").val();
+            //user.FirstName = $("#FirstName").val();
+            //user.LastName = $("#LastName").val();
+            //user.DateOfBirth = $("#DateOfBirth").val();
+            //user.Gender = $('input[name=Gender]:checked').val();
+            //user.Email = $("#Email").val();
+            //user.Password = $("#Password").val();
+            //user.RePassword = $("#RePassword").val();
+            var MobileNumber = $("#MobileNumber").val();
+            var FirstName = $("#FirstName").val();
+            var LastName = $("#LastName").val();
+            var DateOfBirth = $("#DateOfBirth").val();
+            var Gender = $('input[name=Gender]:checked').val();
+            var Email = $("#Email").val();
+            var Password = $("#Password").val();
+            var RePassword = $("#RePassword").val();
             $.ajax({
                 type: "POST",
                 url: "/Account/Registration",
-                data: '{user: ' + JSON.stringify(user) + '}',
+                //data: '{user: ' + JSON.stringify(user) + '}',
+                data: {
+                    MobileNumber: $("#MobileNumber").val(),
+                    FirstName: $("#FirstName").val(),
+                    LastName: $("#LastName").val(),
+                    DateOfBirth: $("#DateOfBirth").val(),
+                    Gender: $('input[name=Gender]:checked').val(),
+                    Email: $("#Email").val(),
+                    Password: $("#Password").val(),
+                    RePassword: $("#RePassword").val()
+                },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
@@ -106,7 +130,7 @@
                     alert("error");
                 }
             });
-        });
+        }
         //$(function () {
         //    $("#regisButton").click(function () {
         //        var person = {};
@@ -131,14 +155,27 @@
         //});
     </script>
     <script>
+        $("#DateOfBirth").val("");
         $(document).on("change", ".date", function () {
             var day = ("0" + $("#day").val()).slice(-2);
             var month = ("0" + $("#month").val()).slice(-2);
             var year = $("#year").val();
-            if (day!="" && month!="" && year!="") {
-                $("#DateOfBirth").val(day + "-" + month + "-" + year);
+            if (day != "" && month != "" && year != "") {
+                $("#DateOfBirth").val(month + "-" + day + "-" + year);
             }
         });
     </script>
+    @if (ViewBag.Status == "Created")
+    {
+        <script>
+            $("#regisBox *").prop("disabled", true);
+            $("#loginButton").prop("disabled", false);
+            $("#loginButton").show();
+        </script>
+    }
+    else if (ViewBag.Status != "")
+    {
+        <script>$("#alert").html(@ViewBag.Status)</script>
+    }
 </body>
 </html>

@@ -64,16 +64,21 @@ namespace Registration.Controllers
                     response.Wait();
 
                     var result = response.Result;
-
-                    //if (result.IsSuccessStatusCode)
-                    //{
-                    //    return RedirectToAction("Index");
-                    //}
+                    if(result.ReasonPhrase == "Created")
+                    {
+                        ViewBag.Status = result.ReasonPhrase;
+                    }
+                    else
+                    {
+                        ViewBag.Status = "Mobile Phone or Email already exists";
+                    }
+                    
                 }
 
                 //ModelState.AddModelError(string.Empty, "Server Error. Please contact administrator.");
 
             }
+            
             return View();
         }
         [HttpPost]
