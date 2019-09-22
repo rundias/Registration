@@ -28,7 +28,7 @@ namespace Registration.Models
         [DataType(DataType.Date)]
         [Display(Name = "Birth Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         [DataType(DataType.Text)]
         [Display(Name = "Gender")]

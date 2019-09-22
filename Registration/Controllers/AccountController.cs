@@ -84,6 +84,7 @@ namespace Registration.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel lv)
         {
+            bool statuscode = false;
             if (ModelState.IsValid)
             {
                 using (var client = new HttpClient())
@@ -102,10 +103,19 @@ namespace Registration.Controllers
 
                     var result = response.Result;
                     ViewBag.Message = result.ReasonPhrase;
+                    statuscode = result.IsSuccessStatusCode;
                 }
 
             }
-            return View();
+            if (statuscode)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View();
+            }
+            
         }
     }
 }
