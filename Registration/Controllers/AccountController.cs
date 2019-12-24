@@ -14,12 +14,6 @@ namespace Registration.Controllers
 {
     public class AccountController : Controller
     {
-        // GET: Account
-        //public enum Gender
-        //{
-        //    Male,
-        //    Female
-        //}
         public ActionResult Index()
         {
             return View();
