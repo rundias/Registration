@@ -9,11 +9,13 @@ namespace Registration
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
-                        "~/Scripts/jquery.date*"));
+                        "~/Scripts/jquery.date*"
+                        ));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
@@ -29,8 +31,9 @@ namespace Registration
                       "~/Content/site.css",
                       "~/Content/AdminLTE.min.css",
                       "~/Content/blue.css",
-                      "~/Content/font-awesome.min.css," +
-                      "~/Content/ionicons.min.css"));
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/ionicons.min.css",
+                      "~/Content/jquery-ui*"));
         }
     }
 }
